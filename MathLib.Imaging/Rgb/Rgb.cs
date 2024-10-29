@@ -12,13 +12,13 @@ namespace MathLib
 {
 	public interface IRgbOperations<TSelf, TNum>
 		where TSelf : IRgbOperations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, INumericType<TNum>
 	{
 
 	}
 
 	public struct Rgb<TNum, TOps> : IRgbOperations<TOps, TNum>, IPixel<Rgb<TNum, TOps>>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, INumericType<TNum>
 		where TOps : IRgbOperations<TOps, TNum>
 	{
 		public static Rgb<TNum, TOps> Zero => new(TNum.Zero);
@@ -58,7 +58,7 @@ namespace MathLib
 	}
 
 	public struct Rgb_Ops_Generic<TNum> : IRgbOperations<Rgb_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, INumericType<TNum>
 	{
 	}
 }

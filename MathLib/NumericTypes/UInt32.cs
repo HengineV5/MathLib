@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt32
-		: IScalar<UInt32>
+		: INumericType<UInt32>
 		, IConvertable<UInt32, UInt8>
 		, IConvertable<UInt32, UInt16>
 		, IConvertable<UInt32, UInt64>
@@ -20,8 +20,6 @@
 		public static UInt32 Zero => 0;
 
 		public static UInt32 Two => 2;
-
-		public static UInt32 PI => throw new NotImplementedException();
 
 		public static int Size => 4;
 
@@ -66,41 +64,6 @@
 		public static implicit operator uint(UInt32 i) => i.value;
 		public static implicit operator UInt32(uint i) => new UInt32(i);
 
-		public static UInt32 Sqrt(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt32 Cos(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt32 Sin(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt32 Tan(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt32 ACos(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt32 ASin(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (UInt32 sin, UInt32 cos) SinCos(UInt32 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static UInt32 Abs(UInt32 self)
 		{
 			throw new NotImplementedException();
@@ -110,6 +73,12 @@
 		{
 			throw new NotImplementedException();
 		}
+
+		public static UInt32 FromInteger(int number)
+			=> new((uint)number);
+
+		public static UInt32 FromInteger(uint number)
+			=> new(number);
 
 		#region Unit conversions
 

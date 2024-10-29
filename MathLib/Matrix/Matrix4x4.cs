@@ -5,7 +5,7 @@ namespace MathLib
 {
 	public interface IMatrix4x4Operations<TSelf, TNum>
 		where TSelf : IMatrix4x4Operations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		static abstract Matrix4x4<TNum, TSelf> Add(ref readonly Matrix4x4<TNum, TSelf> left, ref readonly Matrix4x4<TNum, TSelf> right);
 
@@ -26,7 +26,7 @@ namespace MathLib
 	}
 
 	public struct Matrix4x4<TNum, TOps> : IMatrix4x4Operations<TOps, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IMatrix4x4Operations<TOps, TNum>
 	{
 		public static Matrix4x4<TNum, TOps> Identity => new(
@@ -213,7 +213,7 @@ namespace MathLib
 	}
 
 	public struct Matrix4x4_Ops_Generic<TNum> : IMatrix4x4Operations<Matrix4x4_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		public static Matrix4x4<TNum, Matrix4x4_Ops_Generic<TNum>> Add(ref readonly Matrix4x4<TNum, Matrix4x4_Ops_Generic<TNum>> left, ref readonly Matrix4x4<TNum, Matrix4x4_Ops_Generic<TNum>> right)
 		{

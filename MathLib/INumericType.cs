@@ -9,7 +9,7 @@ namespace MathLib
 		Floating
 	}
 
-	public interface IScalar<TSelf>
+	public interface INumericType<TSelf>
 		  : IAdditionOperators<TSelf, TSelf, TSelf>,
 			ISubtractionOperators<TSelf, TSelf, TSelf>,
 			IDivisionOperators<TSelf, TSelf, TSelf>,
@@ -18,7 +18,7 @@ namespace MathLib
 			IDecrementOperators<TSelf>,
 			IUnaryNegationOperators<TSelf, TSelf>,
 			IUnaryPlusOperators<TSelf, TSelf>
-		where TSelf : unmanaged, IScalar<TSelf>
+		where TSelf : unmanaged, INumericType<TSelf>
 	{
 		static abstract ScalarType Type { get; }
 
@@ -28,9 +28,21 @@ namespace MathLib
 
 		static abstract TSelf Two { get; }
 
-		static abstract TSelf PI { get; }
-
 		static abstract int Size { get; }
+
+		static abstract TSelf Abs(TSelf self);
+
+		static abstract bool IsClose(TSelf self, TSelf num);
+
+		static abstract TSelf FromInteger(int number);
+
+		static abstract TSelf FromInteger(uint number);
+	}
+
+	public interface IFloatingNumericType<TSelf>
+		where TSelf : unmanaged, INumericType<TSelf>, IFloatingNumericType<TSelf>
+	{
+		static abstract TSelf PI { get; }
 
 		static abstract TSelf Sqrt(TSelf self);
 
@@ -46,8 +58,8 @@ namespace MathLib
 
 		static abstract (TSelf sin, TSelf cos) SinCos(TSelf self);
 
-		static abstract TSelf Abs(TSelf self);
+		static abstract TSelf FromFloat(float number);
 
-		static abstract bool IsClose(TSelf self, TSelf num);
+		static abstract TSelf FromFloat(double number);
 	}
 }

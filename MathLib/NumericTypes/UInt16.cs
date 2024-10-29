@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt16
-		: IScalar<UInt16>
+		: INumericType<UInt16>
 		, IConvertable<UInt16, UInt8>
 		, IConvertable<UInt16, UInt32>
 		, IConvertable<UInt16, UInt64>
@@ -20,8 +20,6 @@
 		public static UInt16 Zero => 0;
 
 		public static UInt16 Two => 2;
-
-		public static UInt16 PI => throw new NotImplementedException();
 
 		public static int Size => 2;
 
@@ -66,41 +64,6 @@
 		public static implicit operator ushort(UInt16 i) => i.value;
 		public static implicit operator UInt16(ushort i) => new UInt16(i);
 
-		public static UInt16 Sqrt(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt16 Cos(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt16 Sin(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt16 Tan(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt16 ACos(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt16 ASin(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (UInt16 sin, UInt16 cos) SinCos(UInt16 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static UInt16 Abs(UInt16 self)
 		{
 			throw new NotImplementedException();
@@ -110,6 +73,12 @@
 		{
 			throw new NotImplementedException();
 		}
+
+		public static UInt16 FromInteger(int number)
+			=> new((ushort)number);
+
+		public static UInt16 FromInteger(uint number)
+			=> new((ushort)number);
 
 		#region Unit conversions
 

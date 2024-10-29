@@ -10,7 +10,7 @@ namespace MathLib
 {
 	public interface IVector2Operations<TSelf, TNum>
 		where TSelf : IVector2Operations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		static abstract Vector2<TNum, TSelf> Add(ref readonly Vector2<TNum, TSelf> left, ref readonly Vector2<TNum, TSelf> right);
 
@@ -34,7 +34,7 @@ namespace MathLib
 	}
 
 	public struct Vector2<TNum, TOps> : IVector2Operations<TOps, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IVector2Operations<TOps, TNum>
 	{
 		public static Vector2<TNum, TOps> Zero => new(TNum.Zero);
@@ -108,7 +108,7 @@ namespace MathLib
 	}
 
 	public struct Vector2_Ops_Generic<TNum> : IVector2Operations<Vector2_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Add(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> left, ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> right)
 		{

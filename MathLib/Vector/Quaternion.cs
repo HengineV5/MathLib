@@ -10,7 +10,7 @@ namespace MathLib
 {
 	public interface IQuaternionOperations<TSelf, TNum>
 		where TSelf : IQuaternionOperations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		static abstract TNum LengthSquared(ref readonly Quaternion<TNum, TSelf> q);
 
@@ -20,7 +20,7 @@ namespace MathLib
 	}
 
 	public struct Quaternion<TNum, TOps> : IQuaternionOperations<TOps, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IQuaternionOperations<TOps, TNum>
 	{
 		public static Quaternion<TNum, TOps> Identity => new(TNum.One, TNum.Zero, TNum.Zero, TNum.Zero);
@@ -97,7 +97,7 @@ namespace MathLib
 	}
 
 	public struct Quaternion_Ops_Generic<TNum> : IQuaternionOperations<Quaternion_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		public static TNum Length(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
 		{

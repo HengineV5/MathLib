@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt8
-		: IScalar<UInt8>
+		: INumericType<UInt8>
 		, IConvertable<UInt8, UInt16>
 		, IConvertable<UInt8, UInt32>
 		, IConvertable<UInt8, UInt64>
@@ -20,8 +20,6 @@
 		public static UInt8 Zero => 0;
 
 		public static UInt8 Two => 2;
-
-		public static UInt8 PI => throw new NotImplementedException();
 
 		public static int Size => 1;
 
@@ -66,41 +64,6 @@
 		public static implicit operator byte(UInt8 i) => i.value;
 		public static implicit operator UInt8(byte i) => new UInt8(i);
 
-		public static UInt8 Sqrt(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt8 Cos(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt8 Sin(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt8 Tan(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt8 ACos(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt8 ASin(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (UInt8 sin, UInt8 cos) SinCos(UInt8 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static UInt8 Abs(UInt8 self)
 		{
 			throw new NotImplementedException();
@@ -110,6 +73,12 @@
 		{
 			throw new NotImplementedException();
 		}
+
+		public static UInt8 FromInteger(int number)
+			=> new((byte)number);
+
+		public static UInt8 FromInteger(uint number)
+			=> new((byte)number);
 
 		#region Unit conversions
 

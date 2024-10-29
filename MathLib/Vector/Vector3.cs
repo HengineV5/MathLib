@@ -11,7 +11,7 @@ namespace MathLib
 
 	public interface IVector3Operations<TSelf, TNum>
 		where TSelf : IVector3Operations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		static abstract Vector3<TNum, TSelf> Add(ref readonly Vector3<TNum, TSelf> left, ref readonly Vector3<TNum, TSelf> right);
 
@@ -37,7 +37,7 @@ namespace MathLib
 	}
 
 	public struct Vector3<TNum, TOps> : IVector3Operations<TOps, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IVector3Operations<TOps, TNum>
 	{
 		public static Vector3<TNum, TOps> Zero => new(TNum.Zero);
@@ -125,7 +125,7 @@ namespace MathLib
 	}
 
 	public struct Vector3_Ops_Generic<TNum> : IVector3Operations<Vector3_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Add(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> left, ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> right)
 		{

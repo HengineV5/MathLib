@@ -2,7 +2,7 @@
 namespace MathLib
 {
 	public struct Int16
-		: IScalar<Int16>
+		: INumericType<Int16>
 		, IConvertable<Int16, UInt8>
 		, IConvertable<Int16, UInt16>
 		, IConvertable<Int16, UInt32>
@@ -21,8 +21,6 @@ namespace MathLib
 		public static Int16 Zero => 0;
 
 		public static Int16 Two => 2;
-
-		public static Int16 PI => throw new NotImplementedException();
 
 		public static int Size => 2;
 
@@ -67,41 +65,6 @@ namespace MathLib
 		public static implicit operator short(Int16 i) => i.value;
 		public static implicit operator Int16(short i) => new Int16(i);
 
-		public static Int16 Sqrt(Int16 self)
-		{
-			return (short)MathF.Sqrt(self.value);
-		}
-
-		public static Int16 Cos(Int16 self)
-		{
-			return (short)MathF.Cos(self.value);
-		}
-
-		public static Int16 Sin(Int16 self)
-		{
-			return (short)MathF.Sin(self.value);
-		}
-
-		public static Int16 Tan(Int16 self)
-		{
-			return (short)MathF.Tan(self.value);
-		}
-
-		public static Int16 ACos(Int16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static Int16 ASin(Int16 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (Int16 sin, Int16 cos) SinCos(Int16 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static Int16 Abs(Int16 self)
 		{
 			throw new NotImplementedException();
@@ -111,6 +74,12 @@ namespace MathLib
 		{
 			throw new NotImplementedException();
 		}
+
+		public static Int16 FromInteger(int number)
+			=> new((short)number);
+
+		public static Int16 FromInteger(uint number)
+			=> new((short)number);
 
 		#region Unit conversions
 

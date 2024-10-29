@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt64
-		: IScalar<UInt64>
+		: INumericType<UInt64>
 		, IConvertable<UInt64, UInt8>
 		, IConvertable<UInt64, UInt16>
 		, IConvertable<UInt64, UInt32>
@@ -20,8 +20,6 @@
 		public static UInt64 Zero => 0;
 
 		public static UInt64 Two => 2;
-
-		public static UInt64 PI => throw new NotImplementedException();
 
 		public static int Size => 8;
 
@@ -66,41 +64,6 @@
 		public static implicit operator ulong(UInt64 i) => i.value;
 		public static implicit operator UInt64(ulong i) => new UInt64(i);
 
-		public static UInt64 Sqrt(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt64 Cos(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt64 Sin(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt64 Tan(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt64 ACos(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static UInt64 ASin(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (UInt64 sin, UInt64 cos) SinCos(UInt64 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static UInt64 Abs(UInt64 self)
 		{
 			throw new NotImplementedException();
@@ -110,6 +73,12 @@
 		{
 			throw new NotImplementedException();
 		}
+
+		public static UInt64 FromInteger(int number)
+			=> new((ulong)number);
+
+		public static UInt64 FromInteger(uint number)
+			=> new(number);
 
 		#region Unit conversions
 

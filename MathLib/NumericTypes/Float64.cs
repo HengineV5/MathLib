@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct Float64
-		: IScalar<Float64>
+		: IFloatingNumericType<Float64>, INumericType<Float64>
 		, IConvertable<Float64, UInt8>
 		, IConvertable<Float64, UInt16>
 		, IConvertable<Float64, UInt32>
@@ -111,6 +111,18 @@
 		{
 			return Math.Abs(self - num) < 0.00001f;
 		}
+
+		public static Float64 FromInteger(int number)
+			=> new(number);
+
+		public static Float64 FromInteger(uint number)
+			=> new(number);
+
+		public static Float64 FromFloat(float number)
+			=> new(number);
+
+		public static Float64 FromFloat(double number)
+			=> new(number);
 
 		#region Unit conversions
 

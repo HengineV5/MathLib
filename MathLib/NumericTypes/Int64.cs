@@ -2,7 +2,7 @@
 namespace MathLib
 {
 	public struct Int64
-		: IScalar<Int64>
+		: INumericType<Int64>
 		, IConvertable<Int64, UInt8>
 		, IConvertable<Int64, UInt16>
 		, IConvertable<Int64, UInt32>
@@ -21,8 +21,6 @@ namespace MathLib
 		public static Int64 Zero => 0;
 
 		public static Int64 Two => 2;
-
-		public static Int64 PI => throw new NotImplementedException();
 
 		public static int Size => 8;
 
@@ -67,41 +65,6 @@ namespace MathLib
 		public static implicit operator long(Int64 i) => i.value;
 		public static implicit operator Int64(long i) => new Int64(i);
 
-		public static Int64 Sqrt(Int64 self)
-		{
-			return (int)MathF.Sqrt(self.value);
-		}
-
-		public static Int64 Cos(Int64 self)
-		{
-			return (int)MathF.Cos(self.value);
-		}
-
-		public static Int64 Sin(Int64 self)
-		{
-			return (int)MathF.Sin(self.value);
-		}
-
-		public static Int64 Tan(Int64 self)
-		{
-			return (int)MathF.Tan(self.value);
-		}
-
-		public static Int64 ACos(Int64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static Int64 ASin(Int64 self)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static (Int64 sin, Int64 cos) SinCos(Int64 self)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static Int64 Abs(Int64 self)
 		{
 			throw new NotImplementedException();
@@ -111,6 +74,12 @@ namespace MathLib
 		{
 			throw new NotImplementedException();
 		}
+
+		public static Int64 FromInteger(int number)
+			=> new(number);
+
+		public static Int64 FromInteger(uint number)
+			=> new(number);
 
 		#region Unit conversions
 

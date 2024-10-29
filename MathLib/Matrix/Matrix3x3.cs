@@ -3,7 +3,7 @@ namespace MathLib
 {
 	public interface IMatrix3x3Operations<TSelf, TNum>
 		where TSelf : IMatrix3x3Operations<TSelf, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		static abstract Matrix3x3<TNum, TSelf> Add(ref readonly Matrix3x3<TNum, TSelf> left, ref readonly Matrix3x3<TNum, TSelf> right);
 
@@ -24,7 +24,7 @@ namespace MathLib
 	}
 
 	public struct Matrix3x3<TNum, TOps> : IMatrix3x3Operations<TOps, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IMatrix3x3Operations<TOps, TNum>
 	{
 		public static Matrix3x3<TNum, TOps> Identity => new(
@@ -95,7 +95,7 @@ namespace MathLib
 	}
 
 	public struct Matrix3x3_Ops_Generic<TNum> : IMatrix3x3Operations<Matrix3x3_Ops_Generic<TNum>, TNum>
-		where TNum : unmanaged, IScalar<TNum>
+		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
 		public static Matrix3x3<TNum, Matrix3x3_Ops_Generic<TNum>> Add(ref readonly Matrix3x3<TNum, Matrix3x3_Ops_Generic<TNum>> left, ref readonly Matrix3x3<TNum, Matrix3x3_Ops_Generic<TNum>> right)
 		{
