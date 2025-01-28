@@ -51,14 +51,6 @@ namespace MathLib
 		}
 
 		public override readonly string ToString() => $"{{R: {r} G: {g} B: {b} A: {a}}}";
-
-		public static void Write(ref Rgba<TNum, TOps> self, TNum r, TNum g, TNum b, TNum a)
-		{
-			self.r = r;
-			self.g = g;
-			self.b = b;
-			self.a = a;
-		}
 	}
 
 	public struct Rgba_Ops_Generic<TNum> : IRgbaOperations<Rgba_Ops_Generic<TNum>, TNum>

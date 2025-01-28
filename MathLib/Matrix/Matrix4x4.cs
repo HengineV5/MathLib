@@ -148,8 +148,8 @@ namespace MathLib
 		{
 			return new(
 				TNum.One, TNum.Zero, TNum.Zero, TNum.Zero,
-				TNum.Zero, TNum.Cos(radians), TNum.Sin(radians), TNum.Zero,
-				TNum.Zero, -TNum.Sin(radians), TNum.Cos(radians), TNum.Zero,
+				TNum.Zero, TNum.Cos(radians), -TNum.Sin(radians), TNum.Zero,
+				TNum.Zero, TNum.Sin(radians), TNum.Cos(radians), TNum.Zero,
 				TNum.Zero, TNum.Zero, TNum.Zero, TNum.One
 			);
 		}

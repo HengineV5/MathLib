@@ -97,12 +97,12 @@ namespace MathLib.Test
 			AssertMatrix4x4(m, e);
 
 			m = Matrix4x4f.CreateRotationY(r);
-			e = new Matrix4x4f(MathF.Cos(r), 0, MathF.Sin(r), 0, 0, 1, 0, 0, -MathF.Sin(r), 0, MathF.Cos(r), 0, 0, 0, 0, 1);
+			e = new Matrix4x4f(MathF.Cos(r), 0, -MathF.Sin(r), 0, 0, 1, 0, 0, MathF.Sin(r), 0, MathF.Cos(r), 0, 0, 0, 0, 1);
 
 			AssertMatrix4x4(m, e);
 
 			m = Matrix4x4f.CreateRotationZ(r);
-			e = new Matrix4x4f(MathF.Cos(r), -MathF.Sin(r), 0, 0, MathF.Sin(r), MathF.Cos(r), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+			e = new Matrix4x4f(MathF.Cos(r), -MathF.Sin(r), 0, 0,- MathF.Sin(r), MathF.Cos(r), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
 			AssertMatrix4x4(m, e);
 		}

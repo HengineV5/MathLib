@@ -12,11 +12,19 @@ namespace MathLib
 		where TSelf : IQuaternionOperations<TSelf, TNum>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
+		static abstract Quaternion<TNum, TSelf> Multiplty(ref readonly Quaternion<TNum, TSelf> q1, ref readonly Quaternion<TNum, TSelf> q2);
+
+		static abstract Quaternion<TNum, TSelf> Multiplty(ref readonly Quaternion<TNum, TSelf> q1, TNum num);
+
 		static abstract TNum LengthSquared(ref readonly Quaternion<TNum, TSelf> q);
 
 		static abstract TNum Length(ref readonly Quaternion<TNum, TSelf> q);
 
 		static abstract Quaternion<TNum, TSelf> Normalize(ref readonly Quaternion<TNum, TSelf> q);
+
+		static abstract Quaternion<TNum, TSelf> Inverse(ref readonly Quaternion<TNum, TSelf> q);
+
+		static abstract Quaternion<TNum, TSelf> Negate(ref readonly Quaternion<TNum, TSelf> q);
 	}
 
 	public struct Quaternion<TNum, TOps> : IQuaternionOperations<TOps, TNum>
@@ -85,6 +93,8 @@ namespace MathLib
 			var rotAxis = TVecOps.Normalize(TVecOps.Cross(Vector3<TNum, TVecOps>.UnitX, in dir));
 			return FromAxisAngle(in rotAxis, TNum.ACos(dot));
 		}
+		/*
+		*/
 
 		public static TNum LengthSquared(ref readonly Quaternion<TNum, TOps> q)
 			=> TOps.LengthSquared(in q);
@@ -94,11 +104,40 @@ namespace MathLib
 
 		public static Quaternion<TNum, TOps> Normalize(ref readonly Quaternion<TNum, TOps> q)
 			=> TOps.Normalize(in q);
+
+		public static Quaternion<TNum, TOps> Inverse(ref readonly Quaternion<TNum, TOps> q)
+			=> TOps.Inverse(in q);
+
+		public static Quaternion<TNum, TOps> Multiplty(ref readonly Quaternion<TNum, TOps> q1, ref readonly Quaternion<TNum, TOps> q2)
+			=> TOps.Multiplty(in q1, in q2);
+
+		public static Quaternion<TNum, TOps> Multiplty(ref readonly Quaternion<TNum, TOps> q1, TNum num)
+			=> TOps.Multiplty(in q1, num);
+
+		public static Quaternion<TNum, TOps> Negate(ref readonly Quaternion<TNum, TOps> q)
+			=> TOps.Negate(in q);
 	}
 
 	public struct Quaternion_Ops_Generic<TNum> : IQuaternionOperations<Quaternion_Ops_Generic<TNum>, TNum>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Multiplty(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q1, ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q2)
+		{
+			return new Quaternion<TNum, Quaternion_Ops_Generic<TNum>>(
+				q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
+				q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+				q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
+				q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w
+			);
+		}
+
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Multiplty(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q1, TNum num)
+		{
+			return new Quaternion<TNum, Quaternion_Ops_Generic<TNum>>(
+				q1.w * num, q1.x * num, q1.y * num, q1.z * num
+			);
+		}
+
 		public static TNum Length(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
 		{
 			return TNum.Sqrt(LengthSquared(in q));
@@ -113,6 +152,17 @@ namespace MathLib
 		{
 			var magnitude = Length(in q);
 			return new(q.x / magnitude, q.y / magnitude, q.z / magnitude, q.w / magnitude);
+		}
+
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Inverse(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
+		{
+			var length = LengthSquared(in q);
+			return Multiplty(Negate(q), TNum.One / length);
+		}
+
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Negate(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
+		{
+			return new(-q.x, -q.y, -q.z, q.w);
 		}
 	}
 }
