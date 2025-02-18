@@ -1,10 +1,5 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Numerics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
-using System.Runtime.Intrinsics.X86;
 
 namespace MathLib
 {
@@ -34,6 +29,9 @@ namespace MathLib
 		static abstract TNum Length(ref readonly Vector3<TNum, TSelf> vec);
 
 		static abstract Vector3<TNum, TSelf> Normalize(ref readonly Vector3<TNum, TSelf> vec);
+
+		static abstract Vector3<TNum, TSelf> Transform<TQuaternionOps>(ref readonly Vector3<TNum, TSelf> vec, ref readonly Quaternion<TNum, TQuaternionOps> q)
+			where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>;
 	}
 
 	public struct Vector3<TNum, TOps> : IVector3Operations<TOps, TNum>
@@ -117,6 +115,9 @@ namespace MathLib
 		public static Vector3<TNum, TOps> Normalize(ref readonly Vector3<TNum, TOps> vec)
 			=> TOps.Normalize(in vec);
 
+		public static Vector3<TNum, TOps> Transform<TQuaternionOps>(ref readonly Vector3<TNum, TOps> vec, ref readonly Quaternion<TNum, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>
+			=> TOps.Transform(in vec, in q);
+
 		public static Vector3<TNum, TOps> FromVector2<T>(ref readonly Vector2<TNum, T> vec)
 			where T : IVector2Operations<T, TNum>
 		{
@@ -149,7 +150,7 @@ namespace MathLib
 
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Negate(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec)
 		{
-			return new(-vec.x,  -vec.y, -vec.z);
+			return new(-vec.x, -vec.y, -vec.z);
 		}
 
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Subtract(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> left, ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> right)
@@ -181,6 +182,16 @@ namespace MathLib
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Normalize(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Transform<TQuaternionOps>(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec, ref readonly Quaternion<TNum, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>
+		{
+			Quaternion<TNum, TQuaternionOps> qv = new(vec.x, vec.y, vec.z, TNum.Zero);
+			var qi = Quaternion<TNum, TQuaternionOps>.Conjugate(in q);
+
+			var q1 = Quaternion<TNum, TQuaternionOps>.Multiplty(in q, in qv);
+			Quaternion<TNum, TQuaternionOps> qr = Quaternion<TNum, TQuaternionOps>.Multiplty(in q1, in qi);
+			return new(qr.x, qr.y, qr.z);
 		}
 	}
 
@@ -227,7 +238,7 @@ namespace MathLib
 			//return Vector128.Dot(Unsafe.As<Vector3<Signed32BitFloat, Vector3_Ops_Float>, Vector128<float>>(ref Unsafe.AsRef(in left)), Unsafe.As<Vector3<Signed32BitFloat, Vector3_Ops_Float>, Vector128<float>>(ref Unsafe.AsRef(in right)));
 			return DotInternal(left, right);
 		}
-		
+
 		static Float32 DotInternal(Vector3<Float32, Vector3_Ops_Float> left, Vector3<Float32, Vector3_Ops_Float> right)
 		{
 			// Vector128.Dot modifies both values
@@ -267,6 +278,11 @@ namespace MathLib
 		public static Vector3<Float32, Vector3_Ops_Float> Normalize(ref readonly Vector3<Float32, Vector3_Ops_Float> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector3fo Transform<TQuaternionOps>(ref readonly Vector3<Float32, Vector3_Ops_Float> vec, ref readonly Quaternion<Float32, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, Float32>
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

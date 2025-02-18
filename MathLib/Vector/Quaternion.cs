@@ -16,6 +16,8 @@ namespace MathLib
 
 		static abstract Quaternion<TNum, TSelf> Multiplty(ref readonly Quaternion<TNum, TSelf> q1, TNum num);
 
+		static abstract Quaternion<TNum, TSelf> Divide(ref readonly Quaternion<TNum, TSelf> q1, TNum num);
+
 		static abstract TNum LengthSquared(ref readonly Quaternion<TNum, TSelf> q);
 
 		static abstract TNum Length(ref readonly Quaternion<TNum, TSelf> q);
@@ -25,13 +27,15 @@ namespace MathLib
 		static abstract Quaternion<TNum, TSelf> Inverse(ref readonly Quaternion<TNum, TSelf> q);
 
 		static abstract Quaternion<TNum, TSelf> Negate(ref readonly Quaternion<TNum, TSelf> q);
+
+		static abstract Quaternion<TNum, TSelf> Conjugate(ref readonly Quaternion<TNum, TSelf> q);
 	}
 
 	public struct Quaternion<TNum, TOps> : IQuaternionOperations<TOps, TNum>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IQuaternionOperations<TOps, TNum>
 	{
-		public static Quaternion<TNum, TOps> Identity => new(TNum.One, TNum.Zero, TNum.Zero, TNum.Zero);
+		public static Quaternion<TNum, TOps> Identity => new(TNum.Zero, TNum.Zero, TNum.Zero, TNum.One);
 
 		public TNum x;
 		public TNum y;
@@ -53,6 +57,11 @@ namespace MathLib
 			this.z = z;
 			this.w = w;
 		}
+		public static Quaternion<TNum, TOps> operator *(Quaternion<TNum, TOps> left, Quaternion<TNum, TOps> right) => TOps.Multiplty(in left, in right);
+
+		public static Quaternion<TNum, TOps> operator *(Quaternion<TNum, TOps> left, TNum right) => TOps.Multiplty(in left, right);
+
+		public static Quaternion<TNum, TOps> operator /(Quaternion<TNum, TOps> left, TNum right) => TOps.Divide(in left, right);
 
 		public override readonly string ToString() => $"{{X: {x} Y: {y} Z: {z} W: {w}}}";
 
@@ -83,7 +92,7 @@ namespace MathLib
 
 			if (TNum.IsClose(dot + TNum.One, TNum.Zero))
 			{
-				return new(TNum.PI, Vector3<TNum, TVecOps>.UnitY.x, Vector3<TNum, TVecOps>.UnitY.y, Vector3<TNum, TVecOps>.UnitY.z);
+				return new(Vector3<TNum, TVecOps>.UnitY.x, Vector3<TNum, TVecOps>.UnitY.y, Vector3<TNum, TVecOps>.UnitY.z, TNum.PI);
 			}
 			else if (TNum.IsClose(dot - TNum.One, TNum.Zero))
 			{
@@ -93,8 +102,6 @@ namespace MathLib
 			var rotAxis = TVecOps.Normalize(TVecOps.Cross(Vector3<TNum, TVecOps>.UnitX, in dir));
 			return FromAxisAngle(in rotAxis, TNum.ACos(dot));
 		}
-		/*
-		*/
 
 		public static TNum LengthSquared(ref readonly Quaternion<TNum, TOps> q)
 			=> TOps.LengthSquared(in q);
@@ -114,27 +121,40 @@ namespace MathLib
 		public static Quaternion<TNum, TOps> Multiplty(ref readonly Quaternion<TNum, TOps> q1, TNum num)
 			=> TOps.Multiplty(in q1, num);
 
+		public static Quaternion<TNum, TOps> Divide(ref readonly Quaternion<TNum, TOps> q1, TNum num)
+			=> TOps.Divide(in q1, num);
+
 		public static Quaternion<TNum, TOps> Negate(ref readonly Quaternion<TNum, TOps> q)
 			=> TOps.Negate(in q);
+
+		public static Quaternion<TNum, TOps> Conjugate(ref readonly Quaternion<TNum, TOps> q)
+			=> TOps.Conjugate(in q);
 	}
 
 	public struct Quaternion_Ops_Generic<TNum> : IQuaternionOperations<Quaternion_Ops_Generic<TNum>, TNum>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 	{
-		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Multiplty(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q1, ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q2)
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Multiplty(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> a, ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> b)
 		{
 			return new Quaternion<TNum, Quaternion_Ops_Generic<TNum>>(
-				q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
-				q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
-				q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
-				q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w
+				a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+				a.w * b.y + a.y * b.w + a.z * b.x - a.x * b.z,
+				a.w * b.z + a.z * b.w + a.x * b.y - a.y * b.x,
+				a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
 			);
 		}
 
 		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Multiplty(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q1, TNum num)
 		{
 			return new Quaternion<TNum, Quaternion_Ops_Generic<TNum>>(
-				q1.w * num, q1.x * num, q1.y * num, q1.z * num
+				q1.x * num, q1.y * num, q1.z * num, q1.w * num
+			);
+		}
+
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Divide(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q1, TNum num)
+		{
+			return new Quaternion<TNum, Quaternion_Ops_Generic<TNum>>(
+				q1.x / num, q1.y / num, q1.z / num, q1.w / num
 			);
 		}
 
@@ -161,6 +181,11 @@ namespace MathLib
 		}
 
 		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Negate(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
+		{
+			return new(-q.x, -q.y, -q.z, q.w);
+		}
+
+		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Conjugate(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
 		{
 			return new(-q.x, -q.y, -q.z, q.w);
 		}

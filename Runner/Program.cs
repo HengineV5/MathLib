@@ -13,16 +13,27 @@ namespace Runner
 		{
 #if RELEASE
 			BenchmarkRunner.Run<PerfTests>();
-
 #else
-			Rgba32 pixel1 = new Rgba32(255, 255, 255, 0);
-			Rgba64 pixel2 = new();
+			Quaternionf q_new_1 = new(0.5f, 0.66f, 0.33f, 0);
+			Quaternionf q_new_2 = new(0.5f, 0.5f, 0, 0);
 
-			Console.WriteLine(pixel2);
-			ImageHelpers.Write(ref pixel2, in pixel1);
+			Quaternion q_old_1 = new(0.5f, 0.66f, 0.33f, 0);
+			Quaternion q_old_2 = new(0.5f, 0.5f, 0, 0);
 
-			Console.WriteLine(pixel1);
-			Console.WriteLine(pixel2);
+			Vector3f v_new_1 = new(1.5f, 0.33f, 0);
+			Vector3 v_old_1 = new(1.5f, 0.33f, 0);
+
+			Vector3f r_new = Vector3f.Transform(v_new_1, in q_new_1);
+			Vector3 r_old = Vector3.Transform(v_old_1, q_old_1);
+
+			Console.WriteLine(r_new);
+			Console.WriteLine(r_old);
+
+			//Console.WriteLine(Quaternionf.Multiplty(qVec, Quaternionf.Inverse(q_new_1)));
+			//Console.WriteLine(Quaternion.Multiply(qVec_old, Quaternion.Inverse(q_old_1)));
+
+			//Console.WriteLine(Quaternionf.Conjugate(q_new_1));
+			//Console.WriteLine(Quaternion.Conjugate(q_old_1));
 #endif
 		}
 	}
