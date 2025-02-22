@@ -24,6 +24,8 @@ namespace MathLib
 
 		static abstract Vector4<TNum, TSelf> Divide(ref readonly Vector4<TNum, TSelf> left, TNum right);
 
+		static abstract Vector4<TNum, TSelf> Divide(TNum left, ref readonly Vector4<TNum, TSelf> right);
+
 		static abstract TNum Dot(ref readonly Vector4<TNum, TSelf> left, ref readonly Vector4<TNum, TSelf> right);
 
 		static abstract TNum LengthSquared(ref readonly Vector4<TNum, TSelf> vec);
@@ -33,7 +35,7 @@ namespace MathLib
 		static abstract Vector4<TNum, TSelf> Normalize(ref readonly Vector4<TNum, TSelf> vec);
 	}
 
-	public struct Vector4<TNum, TOps> : IVector4Operations<TOps, TNum>
+	public struct Vector4<TNum, TOps> : IVector4Operations<TOps, TNum>, IEquatable<Vector4<TNum, TOps>>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IVector4Operations<TOps, TNum>
 	{
@@ -85,6 +87,12 @@ namespace MathLib
 
 		public static Vector4<TNum, TOps> operator /(Vector4<TNum, TOps> left, TNum right) => TOps.Divide(in left, right);
 
+		public static Vector4<TNum, TOps> operator /(TNum left, Vector4<TNum, TOps> right) => TOps.Divide(left, in right);
+
+		public static bool operator ==(Vector4<TNum, TOps> left, Vector4<TNum, TOps> right) => left.Equals(right);
+
+		public static bool operator !=(Vector4<TNum, TOps> left, Vector4<TNum, TOps> right) => !left.Equals(right);
+
 		public override readonly string ToString() => $"{{X: {x} Y: {y} Z: {z} W: {w}}}";
 
 		public static Vector4<TNum, TOps> Add(ref readonly Vector4<TNum, TOps> left, ref readonly Vector4<TNum, TOps> right)
@@ -101,6 +109,9 @@ namespace MathLib
 
 		public static Vector4<TNum, TOps> Divide(ref readonly Vector4<TNum, TOps> left, TNum right)
 			=> TOps.Divide(in left, right);
+
+		public static Vector4<TNum, TOps> Divide(TNum left, ref readonly Vector4<TNum, TOps> right)
+			=> TOps.Divide(left, in right);
 
 		public static Vector4<TNum, TOps> Negate(ref readonly Vector4<TNum, TOps> vec)
 			=> TOps.Negate(in vec);
@@ -121,6 +132,11 @@ namespace MathLib
 			where T : IVector3Operations<T, TNum>
 		{
 			return new Vector4<TNum, TOps>(vec.x, vec.y, vec.z, TNum.Zero);
+		}
+
+		public bool Equals(Vector4<TNum, TOps> other)
+		{
+			return x.Equals(other.x) && y.Equals(other.y) && z.Equals(other.z) && w.Equals(other.w);
 		}
 	}
 
@@ -145,6 +161,11 @@ namespace MathLib
 		public static Vector4<TNum, Vector4_Ops_Generic<TNum>> Divide(ref readonly Vector4<TNum, Vector4_Ops_Generic<TNum>> left, TNum right)
 		{
 			return new(left.x / right, left.y / right, left.z / right, left.w / right);
+		}
+
+		public static Vector4<TNum, Vector4_Ops_Generic<TNum>> Divide(TNum left, ref readonly Vector4<TNum, Vector4_Ops_Generic<TNum>> right)
+		{
+			return new(left / right.x, left / right.y, left / right.z, left / right.w);
 		}
 
 		public static Vector4<TNum, Vector4_Ops_Generic<TNum>> Negate(ref readonly Vector4<TNum, Vector4_Ops_Generic<TNum>> vec)

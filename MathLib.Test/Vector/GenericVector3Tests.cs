@@ -101,6 +101,15 @@ namespace MathLib.Test
 			Assert.That(r1 == r2, Is.True, $"|{v1}| should be {r1} but is {r2}");
 		}
 
+		[Test]
+		public void Lerp()
+		{
+			Vector3 r1 = Vector3.Lerp(v1, v2, 0.66f);
+			Vector3f r2 = Vector3f.Lerp(in v3, in v4, 0.66f);
+
+			AssertVec3(r1, r2, "lerp");
+		}
+
 		void AssertVec3(Vector3 r1, Vector3f r2, string op)
 		{
 			Assert.That(r1.X == r2.x, Is.True, $"{v1.X} {op} {v2.X} should be {r1.X} but is {r2.x}");

@@ -29,6 +29,11 @@ namespace Runner
 			Console.WriteLine(r_new);
 			Console.WriteLine(r_old);
 
+			Vector4f k1 = new();
+			Vector4f k2 = new();
+
+			Console.WriteLine(k1 == k2);
+
 			//Console.WriteLine(Quaternionf.Multiplty(qVec, Quaternionf.Inverse(q_new_1)));
 			//Console.WriteLine(Quaternion.Multiply(qVec_old, Quaternion.Inverse(q_old_1)));
 

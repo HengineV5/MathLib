@@ -53,6 +53,14 @@ namespace MathLib
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Vector4<TNum, TOps> Divide<TNum, TOps>(TNum left, ref readonly Vector4<TNum, TOps> right)
+			where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
+			where TOps : IVector4Operations<TOps, TNum>
+		{
+			return Vector4<TNum, TOps>.Divide(left, in right);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static TNum Dot<TNum, TOps>(ref readonly Vector4<TNum, TOps> left, ref readonly Vector4<TNum, TOps> right)
 			where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 			where TOps : IVector4Operations<TOps, TNum>

@@ -1,4 +1,6 @@
 ﻿
+using System.Numerics;
+
 namespace MathLib.Test
 {
 	public class GenericMatrix4x4Tests
@@ -11,6 +13,15 @@ namespace MathLib.Test
 		[SetUp]
 		public void Setup()
 		{
+		}
+
+		[Test]
+		public void Initial()
+		{
+			Matrix4x4 m1 = new(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+			Matrix4x4f m2 = new(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+
+			AssertMatrix4x4(m2, m1);
 		}
 
 		[Test]
@@ -80,11 +91,22 @@ namespace MathLib.Test
 		[Test]
 		public void TranslationMatrix()
 		{
+			/*
 			var v = new Vector3f(1, 2, 3);
 			var m = Matrix4x4f.CreateTranslation(in v);
 			var e = new Matrix4x4f(1, 0, 0, 1, 0, 1, 0, 2, 0, 0, 1, 3, 0, 0, 0, 1);
 
 			AssertMatrix4x4(m, e);
+			*/
+
+			var m1 = Matrix4x4.CreateTranslation(1, 2, 3);
+			var m2 = Matrix4x4f.CreateTranslation(new Vector3f(1, 2, 3));
+
+			Console.WriteLine(m1);
+			Console.WriteLine();
+			Console.WriteLine(m2);
+
+			AssertMatrix4x4(m2, m1);
 		}
 
 		[Test]
@@ -117,6 +139,31 @@ namespace MathLib.Test
 			AssertMatrix4x4(m, e);
 		}
 
+		[Test]
+		public void FromQuaternion()
+		{
+			var q1 = new Quaternion(0.25f, 0.1f, 0.45f, 0.33f);
+			var q2 = new Quaternionf(0.25f, 0.1f, 0.45f, 0.33f);
+
+			var m1 = Matrix4x4.CreateFromQuaternion(q1);
+			var m2 = Matrix4x4f.FromQuaternion(in q2);
+
+			Console.WriteLine(m1);
+			Console.WriteLine();
+			Console.WriteLine(m2);
+
+			AssertMatrix4x4(m2, m1);
+		}
+
+		[Test]
+		public void CreatePerspective()
+		{
+			var m1 = Matrix4x4.CreatePerspectiveFieldOfView(MathF.PI / 2, 0.5f, 0.1f, 100);
+			var m2 = Matrix4x4f.CreatePersperctive(MathF.PI / 2, 0.5f, 0.1f, 100);
+
+			AssertMatrix4x4(m2, m1);
+		}
+
 		void AssertMatrix4x4(Matrix4x4f result, Matrix4x4f expected)
 		{
 			Assert.That(result.m11 == expected.m11, Is.True, $"M11 should be {expected.m11} but is {result.m11}");
@@ -138,6 +185,29 @@ namespace MathLib.Test
 			Assert.That(result.m42 == expected.m42, Is.True, $"M42 should be {expected.m42} but is {result.m42}");
 			Assert.That(result.m43 == expected.m43, Is.True, $"M43 should be {expected.m43} but is {result.m43}");
 			Assert.That(result.m44 == expected.m44, Is.True, $"M44 should be {expected.m44} but is {result.m44}");
+		}
+
+		void AssertMatrix4x4(Matrix4x4f result, Matrix4x4 expected)
+		{
+			Assert.That(result.m11 == expected.M11, Is.True, $"M11 should be {expected.M11} but is {result.m11}");
+			Assert.That(result.m12 == expected.M12, Is.True, $"M12 should be {expected.M12} but is {result.m12}");
+			Assert.That(result.m13 == expected.M13, Is.True, $"M13 should be {expected.M13} but is {result.m13}");
+			Assert.That(result.m14 == expected.M14, Is.True, $"M14 should be {expected.M14} but is {result.m14}");
+
+			Assert.That(result.m21 == expected.M21, Is.True, $"M21 should be {expected.M21} but is {result.m21}");
+			Assert.That(result.m22 == expected.M22, Is.True, $"M22 should be {expected.M22} but is {result.m22}");
+			Assert.That(result.m23 == expected.M23, Is.True, $"M23 should be {expected.M23} but is {result.m23}");
+			Assert.That(result.m24 == expected.M24, Is.True, $"M23 should be {expected.M24} but is {result.m24}");
+
+			Assert.That(result.m31 == expected.M31, Is.True, $"M31 should be {expected.M31} but is {result.m31}");
+			Assert.That(result.m32 == expected.M32, Is.True, $"M32 should be {expected.M32} but is {result.m32}");
+			Assert.That(result.m33 == expected.M33, Is.True, $"M33 should be {expected.M33} but is {result.m33}");
+			Assert.That(result.m34 == expected.M34, Is.True, $"M34 should be {expected.M34} but is {result.m34}");
+
+			Assert.That(result.m41 == expected.M41, Is.True, $"M41 should be {expected.M41} but is {result.m41}");
+			Assert.That(result.m42 == expected.M42, Is.True, $"M42 should be {expected.M42} but is {result.m42}");
+			Assert.That(result.m43 == expected.M43, Is.True, $"M43 should be {expected.M43} but is {result.m43}");
+			Assert.That(result.m44 == expected.M44, Is.True, $"M44 should be {expected.M44} but is {result.m44}");
 		}
 
 		void AssertFloat4(Vector4f result, Vector4f expected)

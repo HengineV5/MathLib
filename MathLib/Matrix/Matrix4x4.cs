@@ -126,9 +126,9 @@ namespace MathLib
 			where TQOps : IQuaternionOperations<TQOps, TNum>
 		{
 			return new Matrix4x4<TNum, TOps>(
-				TNum.One - TNum.Two * (value.y * value.y + value.z * value.z), TNum.Two * (value.x * value.y - value.w * value.z), TNum.Two * (value.z * value.x + value.w * value.y), TNum.Zero,
-				TNum.Two * (value.x * value.y + value.w * value.z), TNum.One - TNum.Two * (value.x * value.x + value.z * value.z), TNum.Two * (value.y * value.z - value.w * value.x), TNum.Zero,
-				TNum.Two * (value.x * value.z - value.w * value.y), TNum.Two * (value.y * value.z + value.w * value.x), TNum.One - TNum.Two * (value.x * value.x + value.y * value.y), TNum.Zero,
+				TNum.One - TNum.Two * (value.y * value.y + value.z * value.z), TNum.Two * (value.x * value.y + value.w * value.z), TNum.Two * (value.x * value.z - value.w * value.y), TNum.Zero,
+				TNum.Two * (value.x * value.y - value.w * value.z), TNum.One - TNum.Two * (value.x * value.x + value.z * value.z), TNum.Two * (value.y * value.z + value.w * value.x), TNum.Zero,
+				TNum.Two * (value.z * value.x + value.w * value.y), TNum.Two * (value.y * value.z - value.w * value.x), TNum.One - TNum.Two * (value.x * value.x + value.y * value.y), TNum.Zero,
 				TNum.Zero, TNum.Zero, TNum.Zero, TNum.One
 			);
 		}
@@ -137,10 +137,10 @@ namespace MathLib
 			where TVecOps : IVector3Operations<TVecOps, TNum>
 		{
 			return new(
-				TNum.One, TNum.Zero, TNum.Zero, vec.x,
-				TNum.Zero, TNum.One, TNum.Zero, vec.y,
-				TNum.Zero, TNum.Zero, TNum.One, vec.z,
-				TNum.Zero, TNum.Zero, TNum.Zero, TNum.One
+				TNum.One, TNum.Zero, TNum.Zero, TNum.Zero,
+				TNum.Zero, TNum.One, TNum.Zero, TNum.Zero,
+				TNum.Zero, TNum.Zero, TNum.One, TNum.Zero,
+				vec.x, vec.y, vec.z, TNum.One
 			);
 		}
 
@@ -203,11 +203,13 @@ namespace MathLib
 
 		public static Matrix4x4<TNum, TOps> CreatePersperctive(TNum fieldOfView, TNum aspectRatio, TNum nearPlane, TNum farPlane)
 		{
+			var scale = TNum.One / TNum.Tan(fieldOfView / (TNum.Two));
+
 			return new(
-				TNum.One / (aspectRatio * TNum.Tan(fieldOfView / TNum.Two)), TNum.Zero, TNum.Zero, TNum.Zero,
-				TNum.Zero, TNum.One / (TNum.Tan(fieldOfView / TNum.Two)), TNum.Zero, TNum.Zero,
-				TNum.Zero, TNum.Zero, (-nearPlane - farPlane) / (nearPlane - farPlane), (TNum.Two * farPlane * nearPlane) / (nearPlane - farPlane),
-				TNum.Zero, TNum.Zero, TNum.One, TNum.Zero
+				scale / aspectRatio, TNum.Zero, TNum.Zero, TNum.Zero,
+				TNum.Zero, scale, TNum.Zero, TNum.Zero,
+				TNum.Zero, TNum.Zero, -(farPlane / (farPlane - nearPlane)), -TNum.One,
+				TNum.Zero, TNum.Zero, -((farPlane * nearPlane) / (farPlane - nearPlane)), TNum.Zero
 			);
 		}
 	}

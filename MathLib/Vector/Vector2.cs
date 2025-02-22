@@ -24,6 +24,8 @@ namespace MathLib
 
 		static abstract Vector2<TNum, TSelf> Divide(ref readonly Vector2<TNum, TSelf> left, TNum right);
 
+		static abstract Vector2<TNum, TSelf> Divide(TNum left, ref readonly Vector2<TNum, TSelf> right);
+
 		static abstract TNum Dot(ref readonly Vector2<TNum, TSelf> left, ref readonly Vector2<TNum, TSelf> right);
 
 		static abstract TNum LengthSquared(ref readonly Vector2<TNum, TSelf> vec);
@@ -33,7 +35,7 @@ namespace MathLib
 		static abstract Vector2<TNum, TSelf> Normalize(ref readonly Vector2<TNum, TSelf> vec);
 	}
 
-	public struct Vector2<TNum, TOps> : IVector2Operations<TOps, TNum>
+	public struct Vector2<TNum, TOps> : IVector2Operations<TOps, TNum>, IEquatable<Vector2<TNum, TOps>>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IVector2Operations<TOps, TNum>
 	{
@@ -74,6 +76,12 @@ namespace MathLib
 
 		public static Vector2<TNum, TOps> operator /(Vector2<TNum, TOps> left, TNum right) => TOps.Divide(in left, right);
 
+		public static Vector2<TNum, TOps> operator /(TNum left, Vector2<TNum, TOps> right) => TOps.Divide(left, in right);
+
+		public static bool operator ==(Vector2<TNum, TOps> left, Vector2<TNum, TOps> right) => left.Equals(right);
+
+		public static bool operator !=(Vector2<TNum, TOps> left, Vector2<TNum, TOps> right) => !left.Equals(right);
+
 		public override readonly string ToString() => $"{{X: {x} Y: {y}}}";
 
 		public static Vector2<TNum, TOps> Add(ref readonly Vector2<TNum, TOps> left, ref readonly Vector2<TNum, TOps> right)
@@ -91,6 +99,9 @@ namespace MathLib
 		public static Vector2<TNum, TOps> Divide(ref readonly Vector2<TNum, TOps> left, TNum right)
 			=> TOps.Divide(in left, right);
 
+		public static Vector2<TNum, TOps> Divide(TNum left, ref readonly Vector2<TNum, TOps> right)
+			=> TOps.Divide(left, in right);
+
 		public static Vector2<TNum, TOps> Negate(ref readonly Vector2<TNum, TOps> vec)
 			=> TOps.Negate(in vec);
 
@@ -105,6 +116,11 @@ namespace MathLib
 
 		public static Vector2<TNum, TOps> Normalize(ref readonly Vector2<TNum, TOps> vec)
 			=> TOps.Normalize(in vec);
+
+		public bool Equals(Vector2<TNum, TOps> other)
+		{
+			return x.Equals(other.x) && y.Equals(other.y);
+		}
 	}
 
 	public struct Vector2_Ops_Generic<TNum> : IVector2Operations<Vector2_Ops_Generic<TNum>, TNum>
@@ -128,6 +144,11 @@ namespace MathLib
 		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Divide(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> left, TNum right)
 		{
 			return new(left.x / right, left.y / right);
+		}
+
+		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Divide(TNum left, ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> right)
+		{
+			return new(left / right.x, left / right.y);
 		}
 
 		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Negate(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> vec)

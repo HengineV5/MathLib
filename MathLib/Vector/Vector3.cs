@@ -20,6 +20,8 @@ namespace MathLib
 
 		static abstract Vector3<TNum, TSelf> Divide(ref readonly Vector3<TNum, TSelf> left, TNum right);
 
+		static abstract Vector3<TNum, TSelf> Divide(TNum left, ref readonly Vector3<TNum, TSelf> right);
+
 		static abstract TNum Dot(ref readonly Vector3<TNum, TSelf> left, ref readonly Vector3<TNum, TSelf> right);
 
 		static abstract Vector3<TNum, TSelf> Cross(ref readonly Vector3<TNum, TSelf> left, ref readonly Vector3<TNum, TSelf> right);
@@ -30,11 +32,13 @@ namespace MathLib
 
 		static abstract Vector3<TNum, TSelf> Normalize(ref readonly Vector3<TNum, TSelf> vec);
 
+		static abstract Vector3<TNum, TSelf> Lerp(ref readonly Vector3<TNum, TSelf> start, ref readonly Vector3<TNum, TSelf> stop, TNum fraction);
+
 		static abstract Vector3<TNum, TSelf> Transform<TQuaternionOps>(ref readonly Vector3<TNum, TSelf> vec, ref readonly Quaternion<TNum, TQuaternionOps> q)
 			where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>;
 	}
 
-	public struct Vector3<TNum, TOps> : IVector3Operations<TOps, TNum>
+	public struct Vector3<TNum, TOps> : IVector3Operations<TOps, TNum>, IEquatable<Vector3<TNum, TOps>>
 		where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
 		where TOps : IVector3Operations<TOps, TNum>
 	{
@@ -80,6 +84,12 @@ namespace MathLib
 
 		public static Vector3<TNum, TOps> operator /(Vector3<TNum, TOps> left, TNum right) => TOps.Divide(in left, right);
 
+		public static Vector3<TNum, TOps> operator /(TNum left, Vector3<TNum, TOps> right) => TOps.Divide(left, in right);
+
+		public static bool operator ==(Vector3<TNum, TOps> left, Vector3<TNum, TOps> right) => left.Equals(right);
+
+		public static bool operator !=(Vector3<TNum, TOps> left, Vector3<TNum, TOps> right) => !left.Equals(right);
+
 		public override readonly string ToString() => $"{{X: {x} Y: {y} Z: {z}}}";
 
 		public static Vector3<TNum, TOps> Add(ref readonly Vector3<TNum, TOps> left, ref readonly Vector3<TNum, TOps> right)
@@ -96,6 +106,9 @@ namespace MathLib
 
 		public static Vector3<TNum, TOps> Divide(ref readonly Vector3<TNum, TOps> left, TNum right)
 			=> TOps.Divide(in left, right);
+
+		public static Vector3<TNum, TOps> Divide(TNum left, ref readonly Vector3<TNum, TOps> right)
+		 => TOps.Divide(left, in right);
 
 		public static Vector3<TNum, TOps> Negate(ref readonly Vector3<TNum, TOps> vec)
 			=> TOps.Negate(in vec);
@@ -115,6 +128,9 @@ namespace MathLib
 		public static Vector3<TNum, TOps> Normalize(ref readonly Vector3<TNum, TOps> vec)
 			=> TOps.Normalize(in vec);
 
+		public static Vector3<TNum, TOps> Lerp(ref readonly Vector3<TNum, TOps> start, ref readonly Vector3<TNum, TOps> stop, TNum fraction)
+			=> TOps.Lerp(in start, in stop, fraction);
+
 		public static Vector3<TNum, TOps> Transform<TQuaternionOps>(ref readonly Vector3<TNum, TOps> vec, ref readonly Quaternion<TNum, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>
 			=> TOps.Transform(in vec, in q);
 
@@ -122,6 +138,11 @@ namespace MathLib
 			where T : IVector2Operations<T, TNum>
 		{
 			return new Vector3<TNum, TOps>(vec.x, vec.y, TNum.Zero);
+		}
+
+		public bool Equals(Vector3<TNum, TOps> other)
+		{
+			return x.Equals(other.x) && y.Equals(other.y) && z.Equals(other.z);
 		}
 	}
 
@@ -146,6 +167,11 @@ namespace MathLib
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Divide(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> left, TNum right)
 		{
 			return new(left.x / right, left.y / right, left.z / right);
+		}
+
+		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Divide(TNum left, ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> right)
+		{
+			return new(left / right.x, left / right.y, left / right.z);
 		}
 
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Negate(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec)
@@ -184,6 +210,11 @@ namespace MathLib
 			return vec / Length(in vec);
 		}
 
+		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Lerp(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> start, ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> stop, TNum fraction)
+		{
+			return start + (stop - start) * fraction;
+		}
+
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Transform<TQuaternionOps>(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec, ref readonly Quaternion<TNum, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, TNum>
 		{
 			Quaternion<TNum, TQuaternionOps> qv = new(vec.x, vec.y, vec.z, TNum.Zero);
@@ -207,6 +238,11 @@ namespace MathLib
 		{
 			var r = Unsafe.As<Vector3<Float32, Vector3_Ops_Float>, Vector128<float>>(ref Unsafe.AsRef(in left)) / right;
 			return Unsafe.ReadUnaligned<Vector3<Float32, Vector3_Ops_Float>>(ref Unsafe.As<Vector128<float>, byte>(ref r));
+		}
+
+		public static Vector3fo Divide(Float32 left, ref readonly Vector3fo right)
+		{
+			throw new NotImplementedException();
 		}
 
 		public static Vector3<Float32, Vector3_Ops_Float> Multiply(ref readonly Vector3<Float32, Vector3_Ops_Float> left, ref readonly Vector3<Float32, Vector3_Ops_Float> right)
@@ -278,6 +314,11 @@ namespace MathLib
 		public static Vector3<Float32, Vector3_Ops_Float> Normalize(ref readonly Vector3<Float32, Vector3_Ops_Float> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector3fo Lerp(ref readonly Vector3fo start, ref readonly Vector3fo stop, Float32 fraction)
+		{
+			throw new NotImplementedException();
 		}
 
 		public static Vector3fo Transform<TQuaternionOps>(ref readonly Vector3<Float32, Vector3_Ops_Float> vec, ref readonly Quaternion<Float32, TQuaternionOps> q) where TQuaternionOps : IQuaternionOperations<TQuaternionOps, Float32>
