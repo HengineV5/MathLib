@@ -12,7 +12,7 @@ namespace MathLib
 		, IConvertable<Int32, Float32>
 		, IConvertable<Int32, Float64>
 	{
-		int value;
+		public int _value;
 
 		public static ScalarType Type => ScalarType.Integer;
 
@@ -26,43 +26,55 @@ namespace MathLib
 
 		public Int32(int value)
 		{
-			this.value = value;
+			this._value = value;
 		}
 
 		public override string ToString()
-			=> value.ToString();
+			=> _value.ToString();
 
 		public static Int32 operator +(Int32 value)
-			=> value.value;
+			=> value._value;
 
 		public static Int32 operator +(Int32 left, Int32 right)
-			=> left.value + right.value;
+			=> left._value + right._value;
 
 		public static Int32 operator -(Int32 value)
-			=> -value.value;
+			=> -value._value;
 
 		public static Int32 operator -(Int32 left, Int32 right)
-			=> left.value - right.value;
+			=> left._value - right._value;
 
 		public static Int32 operator ++(Int32 value)
-			=> value.value++;
+			=> value._value++;
 
 		public static Int32 operator --(Int32 value)
-			=> value.value--;
+			=> value._value--;
 
 		public static Int32 operator *(Int32 left, Int32 right)
-			=> left.value * right.value;
+			=> left._value * right._value;
 
 		public static Int32 operator /(Int32 left, Int32 right)
-			=> left.value / right.value;
+			=> left._value / right._value;
 
 		public static bool operator ==(Int32 left, Int32 right)
-			=> left.value == right.value;
+			=> left._value == right._value;
 
 		public static bool operator !=(Int32 left, Int32 right)
-			=> left.value != right.value;
+			=> left._value != right._value;
 
-		public static implicit operator int(Int32 i) => i.value;
+		public static bool operator <(Int32 left, Int32 right)
+			=> left._value < right._value;
+
+		public static bool operator <=(Int32 left, Int32 right)
+			=> left._value <= right._value;
+
+		public static bool operator >(Int32 left, Int32 right)
+			=> left._value > right._value;
+
+		public static bool operator >=(Int32 left, Int32 right)
+			=> left._value >= right._value;
+
+		public static implicit operator int(Int32 i) => i._value;
 		public static implicit operator Int32(int i) => new Int32(i);
 
 		public static Int32 Abs(Int32 self)
@@ -84,28 +96,28 @@ namespace MathLib
 		#region Unit conversions
 
 		static UInt8 IConvertable<Int32, UInt8>.Convert(Int32 self)
-			=> (byte)self.value;
+			=> (byte)self._value;
 
 		static UInt16 IConvertable<Int32, UInt16>.Convert(Int32 self)
-			=> (ushort)self.value;
+			=> (ushort)self._value;
 
 		static UInt32 IConvertable<Int32, UInt32>.Convert(Int32 self)
-			=> (uint)self.value;
+			=> (uint)self._value;
 
 		static UInt64 IConvertable<Int32, UInt64>.Convert(Int32 self)
-			=> (ulong)self.value;
+			=> (ulong)self._value;
 
 		static Int16 IConvertable<Int32, Int16>.Convert(Int32 self)
-			=> (short)self.value;
+			=> (short)self._value;
 
 		static Int64 IConvertable<Int32, Int64>.Convert(Int32 self)
-			=> self.value;
+			=> self._value;
 
 		static Float32 IConvertable<Int32, Float32>.Convert(Int32 self)
-			=> self.value;
+			=> self._value;
 
 		static Float64 IConvertable<Int32, Float64>.Convert(Int32 self)
-			=> self.value;
+			=> self._value;
 
 		#endregion
 	}

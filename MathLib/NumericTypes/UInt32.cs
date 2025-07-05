@@ -11,7 +11,7 @@
 		, IConvertable<UInt32, Float32>
 		, IConvertable<UInt32, Float64>
 	{
-		uint value;
+		public uint _value;
 
 		public static ScalarType Type => ScalarType.Integer;
 
@@ -25,43 +25,55 @@
 
 		public UInt32(uint value)
 		{
-			this.value = value;
+			this._value = value;
 		}
 
 		public override string ToString()
-			=> value.ToString();
+			=> _value.ToString();
 
 		public static UInt32 operator +(UInt32 value)
-			=> value.value;
+			=> value._value;
 
 		public static UInt32 operator +(UInt32 left, UInt32 right)
-			=> (uint)(left.value + right.value);
+			=> (uint)(left._value + right._value);
 
 		public static UInt32 operator -(UInt32 value)
-			=> (uint)-value.value;
+			=> (uint)-value._value;
 
 		public static UInt32 operator -(UInt32 left, UInt32 right)
-			=> (uint)(left.value - right.value);
+			=> (uint)(left._value - right._value);
 
 		public static UInt32 operator ++(UInt32 value)
-			=> value.value++;
+			=> value._value++;
 
 		public static UInt32 operator --(UInt32 value)
-			=> value.value--;
+			=> value._value--;
 
 		public static UInt32 operator *(UInt32 left, UInt32 right)
-			=> (uint)(left.value * right.value);
+			=> (uint)(left._value * right._value);
 
 		public static UInt32 operator /(UInt32 left, UInt32 right)
-			=> (uint)(left.value / right.value);
+			=> (uint)(left._value / right._value);
 
 		public static bool operator ==(UInt32 left, UInt32 right)
-			=> left.value == right.value;
+			=> left._value == right._value;
 
 		public static bool operator !=(UInt32 left, UInt32 right)
-			=> left.value != right.value;
+			=> left._value != right._value;
 
-		public static implicit operator uint(UInt32 i) => i.value;
+		public static bool operator <(UInt32 left, UInt32 right)
+			=> left._value < right._value;
+
+		public static bool operator <=(UInt32 left, UInt32 right)
+			=> left._value <= right._value;
+
+		public static bool operator >(UInt32 left, UInt32 right)
+			=> left._value > right._value;
+
+		public static bool operator >=(UInt32 left, UInt32 right)
+			=> left._value >= right._value;
+
+		public static implicit operator uint(UInt32 i) => i._value;
 		public static implicit operator UInt32(uint i) => new UInt32(i);
 
 		public static UInt32 Abs(UInt32 self)
@@ -83,28 +95,28 @@
 		#region Unit conversions
 
 		static UInt8 IConvertable<UInt32, UInt8>.Convert(UInt32 self)
-			=> (byte)self.value;
+			=> (byte)self._value;
 
 		static UInt16 IConvertable<UInt32, UInt16>.Convert(UInt32 self)
-			=> (ushort)self.value;
+			=> (ushort)self._value;
 
 		static UInt64 IConvertable<UInt32, UInt64>.Convert(UInt32 self)
-			=> self.value;
+			=> self._value;
 
 		static Int16 IConvertable<UInt32, Int16>.Convert(UInt32 self)
-			=> (short)self.value;
+			=> (short)self._value;
 
 		static Int32 IConvertable<UInt32, Int32>.Convert(UInt32 self)
-			=> (int)self.value;
+			=> (int)self._value;
 
 		static Int64 IConvertable<UInt32, Int64>.Convert(UInt32 self)
-			=> self.value;
+			=> self._value;
 
 		static Float32 IConvertable<UInt32, Float32>.Convert(UInt32 self)
-			=> self.value;
+			=> self._value;
 
 		static Float64 IConvertable<UInt32, Float64>.Convert(UInt32 self)
-			=> self.value;
+			=> self._value;
 
 		#endregion
 	}

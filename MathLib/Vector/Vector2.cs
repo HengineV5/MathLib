@@ -33,6 +33,10 @@ namespace MathLib
 		static abstract TNum Length(ref readonly Vector2<TNum, TSelf> vec);
 
 		static abstract Vector2<TNum, TSelf> Normalize(ref readonly Vector2<TNum, TSelf> vec);
+
+		static abstract Vector2<TNum, TSelf> Abs(ref readonly Vector2<TNum, TSelf> vec);
+
+		static abstract Vector2<TNum, TSelf> Lerp(ref readonly Vector2<TNum, TSelf> start, ref readonly Vector2<TNum, TSelf> stop, TNum fraction);
 	}
 
 	public struct Vector2<TNum, TOps> : IVector2Operations<TOps, TNum>, IEquatable<Vector2<TNum, TOps>>
@@ -117,6 +121,12 @@ namespace MathLib
 		public static Vector2<TNum, TOps> Normalize(ref readonly Vector2<TNum, TOps> vec)
 			=> TOps.Normalize(in vec);
 
+		public static Vector2<TNum, TOps> Abs(ref readonly Vector2<TNum, TOps> vec)
+			=> TOps.Abs(in vec);
+
+		public static Vector2<TNum, TOps> Lerp(ref readonly Vector2<TNum, TOps> start, ref readonly Vector2<TNum, TOps> stop, TNum fraction)
+			=> TOps.Lerp(in start, in stop, fraction);
+
 		public bool Equals(Vector2<TNum, TOps> other)
 		{
 			return x.Equals(other.x) && y.Equals(other.y);
@@ -180,6 +190,16 @@ namespace MathLib
 		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Normalize(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Abs(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> vec)
+		{
+			return new(TNum.Abs(vec.x), TNum.Abs(vec.y));
+		}
+
+		public static Vector2<TNum, Vector2_Ops_Generic<TNum>> Lerp(ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> start, ref readonly Vector2<TNum, Vector2_Ops_Generic<TNum>> stop, TNum fraction)
+		{
+			return start + (stop - start) * fraction;
 		}
 	}
 }

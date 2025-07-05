@@ -11,7 +11,7 @@
 		, IConvertable<Float32, Int64>
 		, IConvertable<Float32, Float64>
 	{
-		float value;
+		public float _value;
 
 		public static ScalarType Type => ScalarType.Floating;
 
@@ -27,84 +27,96 @@
 
 		public Float32(float value)
 		{
-			this.value = value;
+			this._value = value;
 		}
 
 		public override string ToString()
-			=> value.ToString();
+			=> _value.ToString();
 
 		public static Float32 operator +(Float32 value)
-			=> value.value;
+			=> value._value;
 
 		public static Float32 operator +(Float32 left, Float32 right)
-			=> left.value + right.value;
+			=> left._value + right._value;
 
 		public static Float32 operator -(Float32 value)
-			=> -value.value;
+			=> -value._value;
 
 		public static Float32 operator -(Float32 left, Float32 right)
-			=> left.value - right.value;
+			=> left._value - right._value;
 
 		public static Float32 operator ++(Float32 value)
-			=> value.value++;
+			=> value._value++;
 
 		public static Float32 operator --(Float32 value)
-			=> value.value--;
+			=> value._value--;
 
 		public static Float32 operator *(Float32 left, Float32 right)
-			=> left.value * right.value;
+			=> left._value * right._value;
 
 		public static Float32 operator /(Float32 left, Float32 right)
-			=> left.value / right.value;
+			=> left._value / right._value;
 
 		public static bool operator ==(Float32 left, Float32 right)
-			=> left.value == right.value;
+			=> left._value == right._value;
 
 		public static bool operator !=(Float32 left, Float32 right)
-			=> left.value != right.value;
+			=> left._value != right._value;
 
-		public static implicit operator float(Float32 i) => i.value;
+		public static bool operator <(Float32 left, Float32 right)
+			=> left._value < right._value;
+
+		public static bool operator <=(Float32 left, Float32 right)
+			=> left._value <= right._value;
+
+		public static bool operator >(Float32 left, Float32 right)
+			=> left._value > right._value;
+
+		public static bool operator >=(Float32 left, Float32 right)
+			=> left._value >= right._value;
+
+		public static implicit operator float(Float32 i) => i._value;
 		public static implicit operator Float32(float i) => new Float32(i);
 		public static implicit operator Float32(int i) => new Float32(i);
 
 		public static Float32 Sqrt(Float32 self)
 		{
-			return MathF.Sqrt(self.value);
+			return MathF.Sqrt(self._value);
 		}
 
 		public static Float32 Cos(Float32 self)
 		{
-			return MathF.Cos(self.value);
+			return MathF.Cos(self._value);
 		}
 
 		public static Float32 Sin(Float32 self)
 		{
-			return MathF.Sin(self.value);
+			return MathF.Sin(self._value);
 		}
 
 		public static Float32 Tan(Float32 self)
 		{
-			return MathF.Tan(self.value);
+			return MathF.Tan(self._value);
 		}
 
 		public static Float32 ACos(Float32 self)
 		{
-			return MathF.Acos(self.value);
+			return MathF.Acos(self._value);
 		}
 
 		public static Float32 ASin(Float32 self)
 		{
-			return MathF.Asin(self.value);
+			return MathF.Asin(self._value);
 		}
 
 		public static (Float32 sin, Float32 cos) SinCos(Float32 self)
 		{
-			return MathF.SinCos(self.value);
+			return MathF.SinCos(self._value);
 		}
 
 		public static Float32 Abs(Float32 self)
 		{
-			return MathF.Abs(self.value);
+			return MathF.Abs(self._value);
 		}
 
 		public static bool IsClose(Float32 self, Float32 num)
@@ -127,28 +139,28 @@
 		#region Unit conversions
 
 		static UInt8 IConvertable<Float32, UInt8>.Convert(Float32 self)
-			=> (byte)self.value;
+			=> (byte)self._value;
 
 		static UInt16 IConvertable<Float32, UInt16>.Convert(Float32 self)
-			=> (ushort)self.value;
+			=> (ushort)self._value;
 
 		static UInt32 IConvertable<Float32, UInt32>.Convert(Float32 self)
-			=> (uint)self.value;
+			=> (uint)self._value;
 
 		static UInt64 IConvertable<Float32, UInt64>.Convert(Float32 self)
-			=> (ulong)self.value;
+			=> (ulong)self._value;
 
 		static Int16 IConvertable<Float32, Int16>.Convert(Float32 self)
-			=> (short)self.value;
+			=> (short)self._value;
 
 		static Int32 IConvertable<Float32, Int32>.Convert(Float32 self)
-			=> (int)self.value;
+			=> (int)self._value;
 
 		static Int64 IConvertable<Float32, Int64>.Convert(Float32 self)
-			=> (long)self.value;
+			=> (long)self._value;
 
 		static Float64 IConvertable<Float32, Float64>.Convert(Float32 self)
-			=> self.value;
+			=> self._value;
 
 		#endregion
 	}

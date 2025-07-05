@@ -91,5 +91,21 @@ namespace MathLib
 		{
 			return Vector4<TNum, TOps>.Normalize(in vec);
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Vector4<TNum, TOps> Abs<TNum, TOps>(ref readonly Vector4<TNum, TOps> vec)
+			where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
+			where TOps : IVector4Operations<TOps, TNum>
+		{
+			return Vector4<TNum, TOps>.Abs(in vec);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Vector4<TNum, TOps> Lerp<TNum, TOps>(ref readonly Vector4<TNum, TOps> start, ref readonly Vector4<TNum, TOps> stop, TNum fraction)
+			where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
+			where TOps : IVector4Operations<TOps, TNum>
+		{
+			return Vector4<TNum, TOps>.Lerp(in stop, in stop, fraction);
+		}
 	}
 }

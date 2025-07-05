@@ -17,7 +17,8 @@ namespace MathLib
 			IIncrementOperators<TSelf>,
 			IDecrementOperators<TSelf>,
 			IUnaryNegationOperators<TSelf, TSelf>,
-			IUnaryPlusOperators<TSelf, TSelf>
+			IUnaryPlusOperators<TSelf, TSelf>,
+			IComparisonOperators<TSelf, TSelf, bool>
 		where TSelf : unmanaged, INumericType<TSelf>
 	{
 		static abstract ScalarType Type { get; }

@@ -32,6 +32,8 @@ namespace MathLib
 
 		static abstract Vector3<TNum, TSelf> Normalize(ref readonly Vector3<TNum, TSelf> vec);
 
+		static abstract Vector3<TNum, TSelf> Abs(ref readonly Vector3<TNum, TSelf> vec);
+
 		static abstract Vector3<TNum, TSelf> Lerp(ref readonly Vector3<TNum, TSelf> start, ref readonly Vector3<TNum, TSelf> stop, TNum fraction);
 
 		static abstract Vector3<TNum, TSelf> Transform<TQuaternionOps>(ref readonly Vector3<TNum, TSelf> vec, ref readonly Quaternion<TNum, TQuaternionOps> q)
@@ -128,6 +130,9 @@ namespace MathLib
 		public static Vector3<TNum, TOps> Normalize(ref readonly Vector3<TNum, TOps> vec)
 			=> TOps.Normalize(in vec);
 
+		public static Vector3<TNum, TOps> Abs(ref readonly Vector3<TNum, TOps> vec)
+			=> TOps.Abs(in vec);
+
 		public static Vector3<TNum, TOps> Lerp(ref readonly Vector3<TNum, TOps> start, ref readonly Vector3<TNum, TOps> stop, TNum fraction)
 			=> TOps.Lerp(in start, in stop, fraction);
 
@@ -208,6 +213,11 @@ namespace MathLib
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Normalize(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Abs(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> vec)
+		{
+			return new(TNum.Abs(vec.x), TNum.Abs(vec.y), TNum.Abs(vec.z));
 		}
 
 		public static Vector3<TNum, Vector3_Ops_Generic<TNum>> Lerp(ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> start, ref readonly Vector3<TNum, Vector3_Ops_Generic<TNum>> stop, TNum fraction)
@@ -314,6 +324,11 @@ namespace MathLib
 		public static Vector3<Float32, Vector3_Ops_Float> Normalize(ref readonly Vector3<Float32, Vector3_Ops_Float> vec)
 		{
 			return vec / Length(in vec);
+		}
+
+		public static Vector3fo Abs(ref readonly Vector3fo vec)
+		{
+			throw new NotImplementedException();
 		}
 
 		public static Vector3fo Lerp(ref readonly Vector3fo start, ref readonly Vector3fo stop, Float32 fraction)
