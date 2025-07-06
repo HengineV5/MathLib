@@ -31,8 +31,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
-      - name: Install JUnit logger
-        run: dotnet add package JunitXml.TestLogger
 
       - name: Restore dependencies
         run: dotnet restore

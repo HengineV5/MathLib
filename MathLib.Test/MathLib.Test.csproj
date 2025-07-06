@@ -22,6 +22,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\MathLib.Imaging\MathLib.Imaging.csproj" />
 		<ProjectReference Include="..\MathLib\MathLib.csproj" />
+		<PackageReference Include="JunitXml.TestLogger" Version="6.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
