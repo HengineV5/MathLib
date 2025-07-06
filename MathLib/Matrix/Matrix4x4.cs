@@ -125,11 +125,26 @@ namespace MathLib
 		public static Matrix4x4<TNum, TOps> FromQuaternion<TQOps>(ref readonly Quaternion<TNum, TQOps> value)
 			where TQOps : IQuaternionOperations<TQOps, TNum>
 		{
+			// Note: This formula uses the OpenGL/Euclideanspace convention, meaning that the W component
+			// is flipped compared to the .NET convention. As such the implemented algorithm is the same
+			// as the one linked, but the sign of W is flipped.
 			return new Matrix4x4<TNum, TOps>(
-				TNum.One - TNum.Two * (value.y * value.y + value.z * value.z), TNum.Two * (value.x * value.y + value.w * value.z), TNum.Two * (value.x * value.z - value.w * value.y), TNum.Zero,
-				TNum.Two * (value.x * value.y - value.w * value.z), TNum.One - TNum.Two * (value.x * value.x + value.z * value.z), TNum.Two * (value.y * value.z + value.w * value.x), TNum.Zero,
-				TNum.Two * (value.z * value.x + value.w * value.y), TNum.Two * (value.y * value.z - value.w * value.x), TNum.One - TNum.Two * (value.x * value.x + value.y * value.y), TNum.Zero,
-				TNum.Zero, TNum.Zero, TNum.Zero, TNum.One
+				m11: TNum.One - TNum.Two * (value.y * value.y + value.z * value.z),
+				m12: TNum.Two * (value.x * value.y + value.w * value.z),
+				m13: TNum.Two * (value.x * value.z - value.w * value.y),
+				m14: TNum.Zero,
+				m21: TNum.Two * (value.x * value.y - value.w * value.z),
+				m22: TNum.One - TNum.Two * (value.x * value.x + value.z * value.z),
+				m23: TNum.Two * (value.y * value.z + value.w * value.x),
+				m24: TNum.Zero,
+				m31: TNum.Two * (value.z * value.x + value.w * value.y),
+				m32: TNum.Two * (value.y * value.z - value.w * value.x),
+				m33: TNum.One - TNum.Two * (value.x * value.x + value.y * value.y),
+				m34: TNum.Zero,
+				m41: TNum.Zero,
+				m42: TNum.Zero,
+				m43: TNum.Zero,
+				m44: TNum.One
 			);
 		}
 

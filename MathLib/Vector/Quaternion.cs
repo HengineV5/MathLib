@@ -78,10 +78,44 @@ namespace MathLib
 		public static Quaternion<TNum, TOps> FromRotationMatrix<TMatOps>(ref readonly Matrix4x4<TNum, TMatOps> matrix)
 			where TMatOps : IMatrix4x4Operations<TMatOps, TNum>
 		{
-			var w = TNum.Sqrt(TNum.One + matrix.m11 + matrix.m22 + matrix.m33);
-			var w4 = TNum.Two * w;
-
-			return new((matrix.m32 - matrix.m23) / w4, (matrix.m13 - matrix.m31) / w4, (matrix.m21 - matrix.m12) / w4, w / TNum.Two);
+			// Note: This formula uses the OpenGL/Euclideanspace convention, meaning that the W component
+			// is flipped compared to the DirectX convention. As such the implemented algorithm is the same
+			// as the one linked, but the off-diagonal elements are flipped. (for example m23-m32 instead of m32-m23)
+			var trace = matrix.m11 + matrix.m22 + matrix.m33;
+			TNum x, y, z, w;
+			if (trace > TNum.Zero)
+			{
+				var s = TNum.Sqrt(trace + TNum.One) * TNum.Two;
+				w = s / (TNum.Two * TNum.Two);
+				x = (matrix.m23 - matrix.m32) / s;
+				y = (matrix.m31 - matrix.m13) / s;
+				z = (matrix.m12 - matrix.m21) / s;
+			}
+			else if ((matrix.m11 > matrix.m22) && (matrix.m11 > matrix.m33))
+			{
+				var s = TNum.Sqrt(TNum.One + matrix.m11 - matrix.m22 - matrix.m33) * TNum.Two;
+				w = (matrix.m23 - matrix.m32) / s;
+				x = s / (TNum.Two * TNum.Two);
+				y = (matrix.m12 + matrix.m21) / s;
+				z = (matrix.m13 + matrix.m31) / s;
+			}
+			else if (matrix.m22 > matrix.m33)
+			{
+				var s = TNum.Sqrt(TNum.One + matrix.m22 - matrix.m11 - matrix.m33) * TNum.Two;
+				w = (matrix.m31 - matrix.m13) / s;
+				x = (matrix.m12 + matrix.m21) / s;
+				y = s / (TNum.Two * TNum.Two);
+				z = (matrix.m23 + matrix.m32) / s;
+			}
+			else
+			{
+				var s = TNum.Sqrt(TNum.One + matrix.m33 - matrix.m11 - matrix.m22) * TNum.Two;
+				w = (matrix.m12 - matrix.m21) / s; // flipped
+				x = (matrix.m13 + matrix.m31) / s;
+				y = (matrix.m23 + matrix.m32) / s;
+				z = s / (TNum.Two * TNum.Two);
+			}
+			return new Quaternion<TNum, TOps>(x, y, z, w);
 		}
 
 		// https://stackoverflow.com/questions/12435671/quaternion-lookat-function
