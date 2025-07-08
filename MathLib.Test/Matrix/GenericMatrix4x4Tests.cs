@@ -148,10 +148,6 @@ namespace MathLib.Test
 			var m1 = Matrix4x4.CreateFromQuaternion(q1);
 			var m2 = Matrix4x4f.FromQuaternion(in q2);
 
-			Console.WriteLine(m1);
-			Console.WriteLine();
-			Console.WriteLine(m2);
-
 			AssertMatrix4x4(m2, m1);
 		}
 

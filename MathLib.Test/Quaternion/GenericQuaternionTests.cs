@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 
 namespace MathLib.Test
 {
@@ -87,15 +88,53 @@ namespace MathLib.Test
 			AssertVector3(r1, r2, "");
 		}
 
-		[Test]
-		public void FromRotationMatrix()
+		public static IEnumerable<TestCaseData> RotationMatrixCases
 		{
-			var rot1 = Matrix4x4f.CreateRotationX(MathF.PI / 2);
+			get
+			{
+				yield return new TestCaseData(
+					new Matrix4x4f(
+						1f, 0f, 0f, 0f,
+						0f, 0.70710677f, -0.70710677f, 0f,
+						0f, 0.70710677f,  0.70710677f, 0f,
+						0f, 0f, 0f, 1f)
+				).SetName("FromRotationMatrix (trace > 0)");
 
-			var q1 = Quaternionf.FromRotationMatrix(in rot1);
+				yield return new TestCaseData(
+					new Matrix4x4f(
+						1, 0, 0, 0,
+						0, -0.5f, -0.8660254f, 0,
+						0, 0.8660254f, -0.5f, 0,
+						0, 0, 0, 1
+					)
+				).SetName("FromRotationMatrix (m00 > m11 && m00 > m22)");
 
-			var result = Matrix4x4f.FromQuaternion(in q1);
-			AssertMatrix4x4(result, rot1);
+				yield return new TestCaseData(
+					new Matrix4x4f(
+						-0.5f, 0, 0.8660254f, 0,
+						0, 1, 0, 0,
+						-0.8660254f, 0, -0.5f, 0,
+						0, 0, 0, 1
+					)
+				).SetName("FromRotationMatrix (m11 > m22)");
+
+				yield return new TestCaseData(
+					new Matrix4x4f(
+						-0.5f, -0.8660254f, 0, 0,
+						0.8660254f, -0.5f, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1
+					)
+				).SetName("FromRotationMatrix (else)");
+			}
+		}
+
+		[Test, TestCaseSource(nameof(RotationMatrixCases))]
+		public void FromRotationMatrix_AllBranches(Matrix4x4f rot)
+		{
+			var q = Quaternionf.FromRotationMatrix(in rot);
+			var result = Matrix4x4f.FromQuaternion(in q);
+			AssertMatrix4x4(result, rot);
 		}
 
 		/*
