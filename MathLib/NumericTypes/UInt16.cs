@@ -86,6 +86,11 @@
 			throw new NotImplementedException();
 		}
 
+		public static int Sign(UInt16 self)
+		{
+			return MathF.Sign(self._value);
+		}
+
 		public static UInt16 FromInteger(int number)
 			=> new((ushort)number);
 

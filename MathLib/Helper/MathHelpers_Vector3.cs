@@ -124,5 +124,22 @@ namespace MathLib
 		{
 			return vec.Orthogonal();
 		}
+
+		/// <summary>
+		/// Check if two vectors are close to each other within a certain margin.
+		/// </summary>
+		/// <typeparam name="TNum"></typeparam>
+		/// <typeparam name="TOps"></typeparam>
+		/// <param name="p1"></param>
+		/// <param name="p2"></param>
+		/// <param name="margin"></param>
+		/// <returns></returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsClose<TNum, TOps>(ref readonly Vector3<TNum, TOps> p1, ref readonly Vector3<TNum, TOps> p2, float margin)
+			where TNum : unmanaged, IFloatingNumericType<TNum>, INumericType<TNum>
+			where TOps : IVector3Operations<TOps, TNum>
+		{
+			return TNum.Abs(p1.x - p2.x) < TNum.FromFloat(margin) && TNum.Abs(p1.y - p2.y) < TNum.FromFloat(margin) && TNum.Abs(p1.z - p2.z) < TNum.FromFloat(margin);
+		}
 	}
 }

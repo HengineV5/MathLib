@@ -86,6 +86,11 @@
 			throw new NotImplementedException();
 		}
 
+		public static int Sign(UInt8 self)
+		{
+			return MathF.Sign(self._value);
+		}
+
 		public static UInt8 FromInteger(int number)
 			=> new((byte)number);
 

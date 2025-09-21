@@ -87,6 +87,11 @@ namespace MathLib
 			throw new NotImplementedException();
 		}
 
+		public static int Sign(Int16 self)
+		{
+			return MathF.Sign(self._value);
+		}
+
 		public static Int16 FromInteger(int number)
 			=> new((short)number);
 

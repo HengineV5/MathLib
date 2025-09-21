@@ -86,6 +86,11 @@
 			throw new NotImplementedException();
 		}
 
+		public static int Sign(UInt32 self)
+		{
+			return MathF.Sign(self._value);
+		}
+
 		public static UInt32 FromInteger(int number)
 			=> new((uint)number);
 

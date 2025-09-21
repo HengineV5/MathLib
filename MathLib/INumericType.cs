@@ -35,6 +35,8 @@ namespace MathLib
 
 		static abstract bool IsClose(TSelf self, TSelf num);
 
+		static abstract int Sign(TSelf self);
+
 		static abstract TSelf FromInteger(int number);
 
 		static abstract TSelf FromInteger(uint number);
@@ -56,6 +58,10 @@ namespace MathLib
 		static abstract TSelf ASin(TSelf self);
 
 		static abstract TSelf Tan(TSelf self);
+
+		static abstract TSelf Atan(TSelf self);
+
+		static abstract TSelf Atan2(TSelf y, TSelf x);
 
 		static abstract (TSelf sin, TSelf cos) SinCos(TSelf self);
 

@@ -114,6 +114,16 @@
 			return Math.SinCos(self._value);
 		}
 
+		public static Float64 Atan(Float64 self)
+		{
+			return Math.Atan(self._value);
+		}
+
+		public static Float64 Atan2(Float64 x, Float64 y)
+		{
+			return Math.Atan2(x._value, y._value);
+		}
+
 		public static Float64 Abs(Float64 self)
 		{
 			return Math.Abs(self._value);
@@ -122,6 +132,11 @@
 		public static bool IsClose(Float64 self, Float64 num)
 		{
 			return Math.Abs(self - num) < 0.00001f;
+		}
+
+		public static int Sign(Float64 self)
+		{
+			return double.Sign(self._value);
 		}
 
 		public static Float64 FromInteger(int number)

@@ -86,6 +86,11 @@
 			throw new NotImplementedException();
 		}
 
+		public static int Sign(UInt64 self)
+		{
+			return MathF.Sign(self._value);
+		}
+
 		public static UInt64 FromInteger(int number)
 			=> new((ulong)number);
 
