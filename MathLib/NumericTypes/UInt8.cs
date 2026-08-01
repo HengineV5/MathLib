@@ -44,10 +44,10 @@
 			=> (byte)(left._value - right._value);
 
 		public static UInt8 operator ++(UInt8 value)
-			=> value._value++;
+			=> (byte)(value._value + 1);
 
 		public static UInt8 operator --(UInt8 value)
-			=> value._value--;
+			=> (byte)(value._value - 1);
 
 		public static UInt8 operator *(UInt8 left, UInt8 right)
 			=> (byte)(left._value * right._value);
@@ -78,12 +78,12 @@
 
 		public static UInt8 Abs(UInt8 self)
 		{
-			throw new NotImplementedException();
+			return self;
 		}
 
 		public static bool IsClose(UInt8 self, UInt8 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(UInt8 self)

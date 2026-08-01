@@ -20,7 +20,7 @@ namespace MathLib
 
 		public static Int32 Zero => 0;
 
-		public static Int32 Two => 4;
+		public static Int32 Two => 2;
 
 		public static int Size => 4;
 
@@ -45,10 +45,10 @@ namespace MathLib
 			=> left._value - right._value;
 
 		public static Int32 operator ++(Int32 value)
-			=> value._value++;
+			=> value._value + 1;
 
 		public static Int32 operator --(Int32 value)
-			=> value._value--;
+			=> value._value - 1;
 
 		public static Int32 operator *(Int32 left, Int32 right)
 			=> left._value * right._value;
@@ -79,12 +79,12 @@ namespace MathLib
 
 		public static Int32 Abs(Int32 self)
 		{
-			throw new NotImplementedException();
+			return Math.Abs(self._value);
 		}
 
 		public static bool IsClose(Int32 self, Int32 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(Int32 self)

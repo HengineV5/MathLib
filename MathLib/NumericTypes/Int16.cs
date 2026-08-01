@@ -45,10 +45,10 @@ namespace MathLib
 			=> (short)(left._value - right._value);
 
 		public static Int16 operator ++(Int16 value)
-			=> value._value++;
+			=> (short)(value._value + 1);
 
 		public static Int16 operator --(Int16 value)
-			=> value._value--;
+			=> (short)(value._value - 1);
 
 		public static Int16 operator *(Int16 left, Int16 right)
 			=> (short)(left._value * right._value);
@@ -79,12 +79,12 @@ namespace MathLib
 
 		public static Int16 Abs(Int16 self)
 		{
-			throw new NotImplementedException();
+			return Math.Abs(self._value);
 		}
 
 		public static bool IsClose(Int16 self, Int16 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(Int16 self)

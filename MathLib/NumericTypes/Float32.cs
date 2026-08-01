@@ -46,10 +46,10 @@
 			=> left._value - right._value;
 
 		public static Float32 operator ++(Float32 value)
-			=> value._value++;
+			=> value._value + 1;
 
 		public static Float32 operator --(Float32 value)
-			=> value._value--;
+			=> value._value - 1;
 
 		public static Float32 operator *(Float32 left, Float32 right)
 			=> left._value * right._value;

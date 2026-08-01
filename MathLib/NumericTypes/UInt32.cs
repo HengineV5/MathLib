@@ -44,10 +44,10 @@
 			=> (uint)(left._value - right._value);
 
 		public static UInt32 operator ++(UInt32 value)
-			=> value._value++;
+			=> (uint)(value._value + 1);
 
 		public static UInt32 operator --(UInt32 value)
-			=> value._value--;
+			=> (uint)(value._value - 1);
 
 		public static UInt32 operator *(UInt32 left, UInt32 right)
 			=> (uint)(left._value * right._value);
@@ -78,12 +78,12 @@
 
 		public static UInt32 Abs(UInt32 self)
 		{
-			throw new NotImplementedException();
+			return self;
 		}
 
 		public static bool IsClose(UInt32 self, UInt32 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(UInt32 self)

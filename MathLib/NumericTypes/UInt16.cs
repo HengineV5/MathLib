@@ -44,10 +44,10 @@
 			=> (ushort)(left._value - right._value);
 
 		public static UInt16 operator ++(UInt16 value)
-			=> value._value++;
+			=> (ushort)(value._value + 1);
 
 		public static UInt16 operator --(UInt16 value)
-			=> value._value--;
+			=> (ushort)(value._value - 1);
 
 		public static UInt16 operator *(UInt16 left, UInt16 right)
 			=> (ushort)(left._value * right._value);
@@ -78,12 +78,12 @@
 
 		public static UInt16 Abs(UInt16 self)
 		{
-			throw new NotImplementedException();
+			return self;
 		}
 
 		public static bool IsClose(UInt16 self, UInt16 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(UInt16 self)

@@ -44,10 +44,10 @@
 			=> (ulong)(left._value - right._value);
 
 		public static UInt64 operator ++(UInt64 value)
-			=> value._value++;
+			=> (ulong)(value._value + 1);
 
 		public static UInt64 operator --(UInt64 value)
-			=> value._value--;
+			=> (ulong)(value._value - 1);
 
 		public static UInt64 operator *(UInt64 left, UInt64 right)
 			=> (ulong)(left._value * right._value);
@@ -78,12 +78,12 @@
 
 		public static UInt64 Abs(UInt64 self)
 		{
-			throw new NotImplementedException();
+			return self;
 		}
 
 		public static bool IsClose(UInt64 self, UInt64 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(UInt64 self)

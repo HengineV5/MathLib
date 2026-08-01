@@ -45,10 +45,10 @@ namespace MathLib
 			=> left._value - right._value;
 
 		public static Int64 operator ++(Int64 value)
-			=> value._value++;
+			=> value._value + 1;
 
 		public static Int64 operator --(Int64 value)
-			=> value._value--;
+			=> value._value - 1;
 
 		public static Int64 operator *(Int64 left, Int64 right)
 			=> left._value * right._value;
@@ -79,12 +79,12 @@ namespace MathLib
 
 		public static Int64 Abs(Int64 self)
 		{
-			throw new NotImplementedException();
+			return Math.Abs(self._value);
 		}
 
 		public static bool IsClose(Int64 self, Int64 num)
 		{
-			throw new NotImplementedException();
+			return self._value == num._value;
 		}
 
 		public static int Sign(Int64 self)
