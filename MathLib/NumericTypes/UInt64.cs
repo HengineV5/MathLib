@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt64
-		: INumericType<UInt64>
+		: INumericType<UInt64>, IEquatable<UInt64>
 		, IConvertable<UInt64, UInt8>
 		, IConvertable<UInt64, UInt16>
 		, IConvertable<UInt64, UInt32>
@@ -30,6 +30,12 @@
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(UInt64 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is UInt64 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static UInt64 operator +(UInt64 value)
 			=> value._value;

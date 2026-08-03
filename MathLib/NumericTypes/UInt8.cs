@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt8
-		: INumericType<UInt8>
+		: INumericType<UInt8>, IEquatable<UInt8>
 		, IConvertable<UInt8, UInt16>
 		, IConvertable<UInt8, UInt32>
 		, IConvertable<UInt8, UInt64>
@@ -30,6 +30,12 @@
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(UInt8 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is UInt8 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static UInt8 operator +(UInt8 value)
 			=> value._value;

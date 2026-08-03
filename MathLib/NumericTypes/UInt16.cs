@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct UInt16
-		: INumericType<UInt16>
+		: INumericType<UInt16>, IEquatable<UInt16>
 		, IConvertable<UInt16, UInt8>
 		, IConvertable<UInt16, UInt32>
 		, IConvertable<UInt16, UInt64>
@@ -30,6 +30,12 @@
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(UInt16 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is UInt16 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static UInt16 operator +(UInt16 value)
 			=> value._value;

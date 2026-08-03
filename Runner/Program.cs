@@ -23,7 +23,7 @@ namespace Runner
 			Vector3f v_new_1 = new(1.5f, 0.33f, 0);
 			Vector3 v_old_1 = new(1.5f, 0.33f, 0);
 
-			Vector3f r_new = Vector3f.Transform(v_new_1, in q_new_1);
+			Vector3f r_new = Vector3f.Transform(in v_new_1, in q_new_1);
 			Vector3 r_old = Vector3.Transform(v_old_1, q_old_1);
 
 			Console.WriteLine(r_new);

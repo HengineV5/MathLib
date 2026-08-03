@@ -144,10 +144,14 @@ namespace MathLib
 			return new Vector4<TNum, TOps>(vec.x, vec.y, vec.z, TNum.Zero);
 		}
 
-		public bool Equals(Vector4<TNum, TOps> other)
+		public readonly bool Equals(Vector4<TNum, TOps> other)
 		{
 			return x.Equals(other.x) && y.Equals(other.y) && z.Equals(other.z) && w.Equals(other.w);
 		}
+
+		public override readonly bool Equals(object? obj) => obj is Vector4<TNum, TOps> other && Equals(other);
+
+		public override readonly int GetHashCode() => HashCode.Combine(x, y, z, w);
 	}
 
 	public struct Vector4_Ops_Generic<TNum> : IVector4Operations<Vector4_Ops_Generic<TNum>, TNum>

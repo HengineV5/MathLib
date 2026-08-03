@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct Float64
-		: IFloatingNumericType<Float64>, INumericType<Float64>
+		: IFloatingNumericType<Float64>, INumericType<Float64>, IEquatable<Float64>
 		, IConvertable<Float64, UInt8>
 		, IConvertable<Float64, UInt16>
 		, IConvertable<Float64, UInt32>
@@ -32,6 +32,12 @@
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(Float64 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is Float64 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static Float64 operator +(Float64 value)
 			=> value._value;

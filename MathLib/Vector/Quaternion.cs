@@ -211,7 +211,7 @@ namespace MathLib
 		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Inverse(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)
 		{
 			var length = LengthSquared(in q);
-			return Multiplty(Negate(q), TNum.One / length);
+			return Multiplty(Negate(in q), TNum.One / length);
 		}
 
 		public static Quaternion<TNum, Quaternion_Ops_Generic<TNum>> Negate(ref readonly Quaternion<TNum, Quaternion_Ops_Generic<TNum>> q)

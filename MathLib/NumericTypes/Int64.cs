@@ -2,7 +2,7 @@
 namespace MathLib
 {
 	public struct Int64
-		: INumericType<Int64>
+		: INumericType<Int64>, IEquatable<Int64>
 		, IConvertable<Int64, UInt8>
 		, IConvertable<Int64, UInt16>
 		, IConvertable<Int64, UInt32>
@@ -31,6 +31,12 @@ namespace MathLib
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(Int64 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is Int64 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static Int64 operator +(Int64 value)
 			=> value._value;

@@ -2,7 +2,7 @@
 namespace MathLib
 {
 	public struct Int16
-		: INumericType<Int16>
+		: INumericType<Int16>, IEquatable<Int16>
 		, IConvertable<Int16, UInt8>
 		, IConvertable<Int16, UInt16>
 		, IConvertable<Int16, UInt32>
@@ -31,6 +31,12 @@ namespace MathLib
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(Int16 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is Int16 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static Int16 operator +(Int16 value)
 			=> value._value;

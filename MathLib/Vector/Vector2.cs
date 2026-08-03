@@ -127,10 +127,14 @@ namespace MathLib
 		public static Vector2<TNum, TOps> Lerp(ref readonly Vector2<TNum, TOps> start, ref readonly Vector2<TNum, TOps> stop, TNum fraction)
 			=> TOps.Lerp(in start, in stop, fraction);
 
-		public bool Equals(Vector2<TNum, TOps> other)
+		public readonly bool Equals(Vector2<TNum, TOps> other)
 		{
 			return x.Equals(other.x) && y.Equals(other.y);
 		}
+
+		public override readonly bool Equals(object? obj) => obj is Vector2<TNum, TOps> other && Equals(other);
+
+		public override readonly int GetHashCode() => HashCode.Combine(x, y);
 	}
 
 	public struct Vector2_Ops_Generic<TNum> : IVector2Operations<Vector2_Ops_Generic<TNum>, TNum>

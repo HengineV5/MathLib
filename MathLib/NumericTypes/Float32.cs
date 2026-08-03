@@ -1,7 +1,7 @@
 ﻿namespace MathLib
 {
 	public struct Float32
-		: IFloatingNumericType<Float32>, INumericType<Float32>
+		: IFloatingNumericType<Float32>, INumericType<Float32>, IEquatable<Float32>
 		, IConvertable<Float32, UInt8>
 		, IConvertable<Float32, UInt16>
 		, IConvertable<Float32, UInt32>
@@ -32,6 +32,12 @@
 
 		public override string ToString()
 			=> _value.ToString();
+
+		public bool Equals(Float32 other) => this == other;
+
+		public override bool Equals(object? obj) => obj is Float32 other && Equals(other);
+
+		public override int GetHashCode() => _value.GetHashCode();
 
 		public static Float32 operator +(Float32 value)
 			=> value._value;
